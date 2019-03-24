@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="gazebo" default="false"/>
+  <arg name="pedestal" default="true"/>
+  <arg name="accessories" default="true"/>
+  <arg name="generic" default="false"/>
+
+  <param name="robot_description" command="xacro --inorder '$(find baxter_description)/urdf/baxter.urdf.xacro'
+    gazebo:=$(arg gazebo)
+    pedestal:=$(arg pedestal)
+    accessories:=$(arg accessories)
+    generic:=$(arg generic)
+    " />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+      <remap from="joint_states" to="robot/joint_states"/>
+  </node>
+
+</launch>

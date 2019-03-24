@@ -3,10 +3,19 @@
 
   <xacro:arg name="gazebo" default="false"/>
   <xacro:arg name="pedestal" default="true"/>
+  <xacro:arg name="accessories" default="true"/>
+  <xacro:arg name="generic" default="false"/>
   <!-- Baxter Base URDF -->
-  <xacro:include filename="$(find baxter_description)/urdf/baxter_base/baxter_base.urdf.xacro">
-    <xacro:arg name="gazebo" value="${gazebo}"/>
-  </xacro:include>
+  <xacro:if value="$(arg generic)">
+    <xacro:include filename="$(find baxter_description)/urdf/baxter_base/baxter_base_generic.urdf.xacro">
+      <xacro:arg name="gazebo" value="${gazebo}"/>
+    </xacro:include>
+  </xacro:if>
+  <xacro:unless value="$(arg generic)">
+    <xacro:include filename="$(find baxter_description)/urdf/baxter_base/baxter_base.urdf.xacro">
+      <xacro:arg name="gazebo" value="${gazebo}"/>
+    </xacro:include>
+  </xacro:unless>
 
   <!-- Baxter Pedestal -->
   <xacro:if value="$(arg pedestal)">
@@ -20,5 +29,10 @@
 
   <!-- Right End Effector -->
   <xacro:include filename="$(find baxter_description)/urdf/right_end_effector.urdf.xacro" />
+
+  <!-- Baxter Accessories -->
+  <xacro:if value="$(arg accessories)">
+    <xacro:include filename="$(find baxter_description)/urdf/accessories/baxter_accessories.urdf.xacro"/>
+  </xacro:if>
 
 </robot>
